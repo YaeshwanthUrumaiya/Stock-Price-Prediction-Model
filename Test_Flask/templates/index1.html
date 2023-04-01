@@ -3,12 +3,6 @@
         <title>
             test
         </title>
-        <style>
-            body{
-                background-color: black;
-                color:ivory;
-            }
-        </style>
     </head>
     <body>
         <form action="{{ url_for("gfg")}}" method="post">
@@ -19,5 +13,10 @@
             <label for="stockname">Stock Name:</label>
             <input type="text" id="stockname" name="sname" placeholder="lastname">
             <button type="submit">Login</button>
+            <div>
+                {{ graph_html|safe }}
+            </div>
+            <p>{{ my_string }}</p>
+            
     </body>
 </html>
