@@ -20,9 +20,20 @@ import plotly.offline as pyo
 def model_prediction(df):
     Y=df.filter(["Close"])
     X=df.drop(['Close'],axis=1)
+
+    Y['Date']=Y.index
+
     X=X.values
     Y=Y.values
     X_train, X_val, Y_train, Y_val = train_test_split(X,Y,test_size=0.05, random_state=10)
+
+    Y_train_data=pd.DataFrame(Y_train[:,1])
+    Y_val_data=pd.DataFrame(Y_val[:,1])
+
+    Y_train=np.delete(Y_train,1,axis=1)
+    Y_val=np.delete(Y_val,1,axis=1)
+
+
     scaler = MinMaxScaler(feature_range=(0,1))
     Y_train=scaler.fit_transform(Y_train)
     y_val=scaler.fit(Y_val)
@@ -61,19 +72,17 @@ def model_prediction(df):
     # Save the chart to a temporary file
     #chart_file = "Stock-Price-Prediction-Model\Test_Flask\static\Image\output-1.jpg"
     #plt.savefig(chart_file)
-    train_dates = df.index[:-len(X_val)]
+    #train_dates = df.index[:-len(X_val)]
     val_dates = df.index[-len(X_val):]
-
-    date = np.concatenate((train_dates, val_dates), axis=0)
 
     # plot the time series graph of the close price of the training data
     #trace1 = go.Scatter(x=train_dates, y=scaler.inverse_transform(Y_train)[:,0], mode="lines", name="Close Price of Training Data")
 
     # plot the actual close price of the testing data
-    trace2 = go.Scatter(x=val_dates, y=Y_val[:,0], mode="lines", name="Actual Close Price of Testing Data")
+    trace2 = go.Scatter(x=val_dates, y=Y_val[:,0], stackgroup='one', name="Actual Close Price of Testing Data")
 
     # plot the predicted price of the testing data
-    trace3 = go.Scatter(x=val_dates, y=predictions[:,0], mode="lines", name="Predicted Close Price of Testing Data")
+    trace3 = go.Scatter(x=val_dates, y=predictions[:,0], stackgroup='one', name="Predicted Close Price of Testing Data")
 
     #data = [trace1, trace2, trace3]
     data = [trace2, trace3]
@@ -93,10 +102,6 @@ app = Flask(__name__)
 @app.route('/', methods =["GET", "POST"])  
 def gfg():  
     if request.method == "POST":
-       # getting input with name = fname in HTML form
-       first_name = request.form.get("fname")
-       # getting input with name = lname in HTML form
-       last_name = request.form.get("lname")
        stockname=request.form.get('sname')
 
        df=yk.download(tickers=stockname,period='60d',interval='30m')
