@@ -14,6 +14,9 @@ from sklearn.metrics import r2_score
 from keras.models import Sequential #sequential is a type of neutral network where the bottom layer feeds the layer infront. going in a sequential order
 from keras.layers import Dense, LSTM
 
+import plotly.graph_objs as go
+import plotly.offline as pyo
+
 def model_prediction(df):
     Y=df.filter(["Close"])
     X=df.drop(['Close'],axis=1)
@@ -67,7 +70,12 @@ def gfg():
        df=yk.download(tickers=stockname,period='60d',interval='30m')
        va,ds=model_prediction(df)
        return render_template('index1.html', my_string=va,predictions=ds)
-    return render_template("index1.html")  
+    data = [go.Scatter(x=[1, 2, 3], y=[4, 5, 6])]
+    layout = go.Layout(title="My Plot")
+    fig = go.Figure(data=data, layout=layout)
+    graph_html = pyo.plot(fig, output_type="div")
+    return render_template("index1.html", graph_html=graph_html)  
+
   
 if __name__ =="__main__":  
     app.run(debug = True)  
