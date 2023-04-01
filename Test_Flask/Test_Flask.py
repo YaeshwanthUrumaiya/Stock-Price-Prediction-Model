@@ -43,7 +43,13 @@ def model_prediction(df):
 
 #the prediction for the model rn is now in scaled model. so you are rescaling it backwards
     predictions = scaler.inverse_transform(predictions)
-    return str(predictions[-1][0])
+    plt.plot(Y_val)
+    plt.plot(predictions)
+
+    # Save the chart to a temporary file
+    chart_file = "Stock-Price-Prediction-Model\Test_Flask\static\Image\output-1.jpg"
+    plt.savefig(chart_file)
+    return str(predictions[-1][0]),predictions
 
 
 
@@ -59,7 +65,8 @@ def gfg():
        stockname=request.form.get('sname')
 
        df=yk.download(tickers=stockname,period='60d',interval='30m')
-       return model_prediction(df)
+       va,ds=model_prediction(df)
+       return render_template('index1.html', my_string=va,predictions=ds)
     return render_template("index1.html")  
   
 if __name__ =="__main__":  
