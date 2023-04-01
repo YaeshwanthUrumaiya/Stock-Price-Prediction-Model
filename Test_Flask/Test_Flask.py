@@ -49,7 +49,7 @@ def model_prediction(df):
     # Save the chart to a temporary file
     chart_file = "Stock-Price-Prediction-Model\Test_Flask\static\Image\output-1.jpg"
     plt.savefig(chart_file)
-    return str(predictions[-1][0])
+    return str(predictions[-1][0]),predictions
 
 
 
@@ -65,8 +65,8 @@ def gfg():
        stockname=request.form.get('sname')
 
        df=yk.download(tickers=stockname,period='60d',interval='30m')
-       va=model_prediction(df)
-       return render_template('index1.html', my_string=va)
+       va,ds=model_prediction(df)
+       return render_template('index1.html', my_string=va,predictions=ds)
     return render_template("index1.html")  
   
 if __name__ =="__main__":  

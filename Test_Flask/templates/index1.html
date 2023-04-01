@@ -16,5 +16,8 @@
             <h1>Line Chart</h1>
             <img src="{{url_for('static', filename='/Image/output-1.jpg')}}" alt="Line Chart">
             <p>{{ my_string }}</p>
+            <script>    
+                var predictions = {{ predictions | tojson }};
+            </script>
     </body>
 </html>
