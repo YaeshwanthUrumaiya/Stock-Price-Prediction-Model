@@ -46,23 +46,45 @@ def model_prediction(df):
 
 #the prediction for the model rn is now in scaled model. so you are rescaling it backwards
     predictions = scaler.inverse_transform(predictions)
+
+    r2s=r2_score(Y_val, predictions)
+#that is the r2 score. mulitplication of that value with 100 will give you the percentage value of accuracy. the closer this is to 1 is better. 
+    rsme=np.sqrt(np.mean(((predictions - Y_val) ** 2)))
+    todays_data=df.iloc[-1]
+    todays_data.drop(['Close'],inplace=True)
+    todays_data=np.array([todays_data])
+    data_rn=model.predict(todays_data)
+    todays_value=scaler.inverse_transform(data_rn)
     #plt.plot(Y_val)
     #plt.plot(predictions)
 
     # Save the chart to a temporary file
     #chart_file = "Stock-Price-Prediction-Model\Test_Flask\static\Image\output-1.jpg"
     #plt.savefig(chart_file)
-    trace1 = go.Scatter(x=df.index, y=Y_val.reshape(-1), name='Actual')
-    trace2 = go.Scatter(x=df.index, y=predictions.reshape(-1), name='Predicted')
+    train_dates = df.index[:-len(X_val)]
+    val_dates = df.index[-len(X_val):]
 
-    # Combine traces into data and create layout
-    data = [trace1, trace2]
-    layout = go.Layout(title='Actual vs Predicted', xaxis_title='Date', yaxis_title='Price')
+    date = np.concatenate((train_dates, val_dates), axis=0)
 
-    # Create figure and plot
-    fig = go.Figure(data=data, layout=layout)
+    # plot the time series graph of the close price of the training data
+    #trace1 = go.Scatter(x=train_dates, y=scaler.inverse_transform(Y_train)[:,0], mode="lines", name="Close Price of Training Data")
+
+    # plot the actual close price of the testing data
+    trace2 = go.Scatter(x=val_dates, y=Y_val[:,0], mode="lines", name="Actual Close Price of Testing Data")
+
+    # plot the predicted price of the testing data
+    trace3 = go.Scatter(x=val_dates, y=predictions[:,0], mode="lines", name="Predicted Close Price of Testing Data")
+
+    #data = [trace1, trace2, trace3]
+    data = [trace2, trace3]
+    layout = dict(title='Stock Price Prediction', xaxis_title='Date', yaxis_title='Price',margin=dict(l=80, r=80, t=80, b=80)) 
+    fig = dict(data=data, layout=layout)
+
     graph_html = pyo.plot(fig, output_type="div")
-    return str(predictions[-1][0]),graph_html
+    
+    strout= "The predicted value is:"+str(todays_value[0][0])+" with accurary of:"+str((r2s*100))+" and RSME of:"+str(rsme)
+
+    return strout,graph_html
 
 
 
