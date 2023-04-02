@@ -19,7 +19,7 @@
     overflow: hidden;
     background-size: cover;
 }
-.video-container video {
+.video-container img {
     /* Make video to at least 100% wide and tall */
     min-width: 100%;
     min-height: 100%;
@@ -90,6 +90,7 @@ input{
 }
 body {
     background-color: #63D6E0;
+    overflow: hidden;
 }
 
 .ui{
@@ -139,13 +140,10 @@ h1{
     <div class="navigation">
 
     </div>
-    <img src="Stock-Price-Prediction-Model\Test_Flask\static\Image\money-graph-with-up-arrow.png">
+    <img src="{{ url_for('static', filename='Image/money-graph-with-up-arrow.png') }}">
     <h1>Stock Market Prediction</h1>
     <div class="video-container">
-        <video autoplay muted loop id="myVideo">
-            <source src="Stock-Price-Prediction-Model\Test_Flask\static\Image\bg.mp4" type="video/mp4">
-            Your browser does not support HTML5 video.
-        </video>
+        <img src="{{ url_for('static', filename='Image/bg.gif') }}">
     </div>
     <div class="ui">
         <center>
@@ -156,16 +154,16 @@ h1{
         
         <br><br>
         <label style="position: absolute;left:95px;">Period:</label>
-        <select class="dropdown1">
-            <option>7 days</option>
-            <option>30 days</option>
-            <option>60 days (recommended)</option>
-            <option>90 days</option>
-            <option>3 years</option>
+        <select class="dropdown1" name="per">
+            <option value="30d">30 days</option>
+            <option value="60d">60 days (recommended)</option>
+            <option value="90d">90 days</option>
+            <option value="3y">3 years</option>
         </select>
         <br><br>
         <br><br>
-        <button type="submit" href="" style="position: absolute;left:200px;top:150px;">Predict</button>
+        <button type="submit" style="position: absolute;left:200px;top:150px;">Predict</button>
+        <label style="position: absolute;left:100px;top:120px; white-space: nowrap;">{{ error }}</p>
         </center>
     </div>
     <center>

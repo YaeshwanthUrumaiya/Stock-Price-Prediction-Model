@@ -14,7 +14,7 @@
     overflow: hidden;
     background-size: cover;
 }
-.video-container video {
+.video-container img {
     /* Make video to at least 100% wide and tall */
     min-width: 100%;
     min-height: 100%;
@@ -30,11 +30,11 @@
     transform: translate(-50%,-50%);
 }
 
-canvas{
+.graph{
     position: absolute;
     height:500px;
     width:900px;
-    top:100px;
+    top:55px; 
     left:270px;
     z-index:1;
     background-color: whitesmoke;
@@ -46,7 +46,7 @@ canvas{
     position: absolute;
     height:100px;
     width:200px;
-    top:670px;
+    top:625px;
     left:400px;
     z-index:1;
     background-color: whitesmoke;
@@ -71,26 +71,27 @@ h6 {
 img{
     position: absolute;
     left:415px;
-    top:700px;
+    top:655px;
     width:40px;
     height:40px;
     opacity: 50%;
     z-index:2;
 }
+body{
+  overflow: hidden;
+}
     </style>
 </head>
 <body>
-<div class="video-container">
-  <video autoplay muted loop id="myVideo">
-    <source src="bg.mp4" type="video/mp4">
-    Your browser does not support HTML5 video.
-  </video>
-  <img src="dollar.png">
-  <img src="monitor.png" style="position: absolute;left:870px;top:695px;opacity:50%;width:42px;height:42px;">
+  <div class="video-container">
+    <img src="{{ url_for('static', filename='Image/bg.gif') }}">
+  </div>
+  <img src="{{ url_for('static', filename='Image/dollar.png') }}">
+  <img src="{{ url_for('static', filename='Image/monitor.png') }}" style="position: absolute;left:870px;top:650px;opacity:50%;width:42px;height:42px;">
 
-  <div id="myCanvas" width="200" height="100">{{ graph_html|safe }}</div>
-  <div class="card"><center><h6>Predicted<br>$40</h6></center></div>
-  <div class="card" style="position: absolute;left:850px;"><center><h6 style="position: absolute;left:80px;">R.S.M.E<br>0.4</h6></center></div>
+  <div class='graph' height="200">{{ graph_html|safe }}</div>
+  <div class="card"><center><h6>Predicted<br><p>{{ my_string1 }}</p></h6></center></div>
+  <div class="card" style="position: absolute;left:850px;"><center><h6 style="position: absolute;left:80px;">R.S.M.E<br><p>{{ my_string2 }}</p></h6></center></div>
 </div>
 </body>
 </html>

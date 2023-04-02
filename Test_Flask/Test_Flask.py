@@ -93,14 +93,16 @@ def model_prediction(df):
 
     #data = [trace1, trace2, trace3]
     data = [trace2, trace3]
-    layout = dict(title='Stock Price Prediction', xaxis_title='Date', yaxis_title='Price',margin=dict(l=80, r=80, t=80, b=80),plot_bgcolor="rgba(0,0,0,0)",paper_bgcolor="rgba(0,0,0,0)") 
+    layout = dict(title='Stock Price Prediction', xaxis_title='Date', yaxis_title='Price',margin=dict(l=100, r=100, t=200, b=200),plot_bgcolor="rgba(0,0,0,0)",paper_bgcolor="rgba(0,0,0,0)") 
     fig = dict(data=data, layout=layout)
 
     graph_html = pyo.plot(fig, output_type="div")
     
     strout= "The predicted value is:"+str(todays_value[0][0])+" with accurary of:"+str((r2s*100))+" and RSME of:"+str(rsme)
+    s1=str(round(todays_value[0][0], 2))
+    s2=str(np.ceil(rsme))
 
-    return strout,graph_html
+    return s1,graph_html,s2
 
 
 
@@ -110,13 +112,48 @@ app = Flask(__name__)
 def gfg():  
     if request.method == "POST":
         stockname=request.form.get('sname')
-        df=yk.download(tickers=stockname,period='90d',interval='60m')
+        per=request.form.get('per')
+
+        inter=None
+
+        if(per=='60d'):
+            inter='30m'
+
+        if(per=='30d'):
+            inter='5m'
+
+        elif (per=='90d'):
+            inter='60m'
+
+        elif(per=="3y"):
+            inter='1d'
+
+        else:
+            pass  
+
+        try:
+            df=yk.download(tickers=stockname,period=per,interval=inter)
+        except:
+            return render_template("index.html", error="We are unable to fetch the data")
         #go with either 60d and 30m or 3y and 1d or 60d and 60m or 90d and 60m
         if (((np.array(df.sum()))!=0).sum()==0):
-            return render_template('index1.html', error="We are unable to fetch the data")
-        va,graph_html=model_prediction(df)
-        return render_template('graph.html',graph_html=graph_html)
+            return render_template("index.html", error="We are unable to fetch the data")
+        s1,graph_html,s2=model_prediction(df)
+        return render_template('graph.html',my_string1=s1,my_string2=s2,graph_html=graph_html)
+    
     return render_template("index.html")  
+
+    #return render_template("graph.html")
+
+    #trace = go.Scatter(x=[1, 2, 3], y=[4, 5, 6])
+
+# create the layout and set the margin
+    #layout = go.Layout(title='My Plot',xaxis=dict(title='X Axis'),yaxis=dict(title='Y Axis'),margin=dict(l=100, r=100, t=200, b=200)  # set the margins to 50 pixels)
+    #fig = dict(data=trace, layout=layout)
+    #graph_html = pyo.plot(fig, output_type="div")
+    #return render_template('graph.html',graph_html=graph_html)
+
+# create the figure and plot it
 
   
 if __name__ =="__main__":  
