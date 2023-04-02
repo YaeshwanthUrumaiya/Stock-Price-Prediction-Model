@@ -12,7 +12,7 @@ from sklearn.metrics import r2_score
 #to get the test train data split and then scale them. 
 
 from keras.models import Sequential #sequential is a type of neutral network where the bottom layer feeds the layer infront. going in a sequential order
-from keras.layers import Dense, LSTM
+from keras.layers import Dense, LSTM, Dropout
 
 import plotly.graph_objs as go
 import plotly.offline as pyo
@@ -37,14 +37,20 @@ def model_prediction(df):
     scaler = MinMaxScaler(feature_range=(0,1))
     Y_train=scaler.fit_transform(Y_train)
     y_val=scaler.fit(Y_val)
+#that is the bottom layer and it goes further and further. 
+#return sequences being true means all of the hidden weights and baises will move to the next layer. 
+#if it is set to false, then it won't and only the true output from that layer will move to the next layer. 
     model = Sequential()
 #that is the bottom layer and it goes further and further. 
 #return sequences being true means all of the hidden weights and baises will move to the next layer. 
 #if it is set to false, then it won't and only the true output from that layer will move to the next layer. 
     model.add(LSTM(169, return_sequences=True, input_shape= (X_train.shape[1], 1)))
+    model.add(Dropout(0.2))
     model.add(LSTM(84, return_sequences=True))
+    model.add(Dropout(0.2))
     model.add(LSTM(64, return_sequences=False))
-    model.add(Dense(40))
+    model.add(Dropout(0.2))
+    model.add(Dense(60))
     model.add(Dense(1)) 
     model.compile(optimizer='adam', loss='mean_squared_error')
 #optimizer is how you train the data. usually you would use gradient descent to update the parameters. 
@@ -92,7 +98,7 @@ def model_prediction(df):
 
     graph_html = pyo.plot(fig, output_type="div")
     
-    strout= "The predicted value is:"+str(todays_value[0][0])+"\n"+" with accurary of:"+str((r2s*100))+"\n"+" and RSME of:"+str(rsme)
+    strout= "The predicted value is:"+str(todays_value[0][0])+" with accurary of:"+str((r2s*100))+" and RSME of:"+str(rsme)
 
     return strout,graph_html
 
@@ -105,12 +111,13 @@ def gfg():
     if request.method == "POST":
         stockname=request.form.get('sname')
         df=yk.download(tickers=stockname,period='90d',interval='60m')
-        #go with wither 60d and 30m or 3y and 1d or 60d and 60m or 90d and 60m
+        #go with either 60d and 30m or 3y and 1d or 60d and 60m or 90d and 60m
         if (((np.array(df.sum()))!=0).sum()==0):
             return render_template('index1.html', error="We are unable to fetch the data")
         va,graph_html=model_prediction(df)
         return render_template('index1.html', my_string=va,graph_html=graph_html)
     return render_template("index1.html")  
 
+  
 if __name__ =="__main__":  
-    app.run(debug = True)
+    app.run(debug = True)  
