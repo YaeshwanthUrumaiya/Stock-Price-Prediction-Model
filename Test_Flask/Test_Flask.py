@@ -91,7 +91,7 @@ def model_prediction(df):
 
     graph_html = pyo.plot(fig, output_type="div")
     
-    strout= "The predicted value is:"+str(todays_value[0][0])+" with accurary of:"+str((r2s*100))+" and RSME of:"+str(rsme)
+    strout= "The predicted value is:"+str(todays_value[0][0])+"\n"+" with accurary of:"+str((r2s*100))+"\n"+" and RSME of:"+str(rsme)
 
     return strout,graph_html
 
@@ -109,6 +109,5 @@ def gfg():
        return render_template('index1.html', my_string=va,graph_html=graph_html)
     return render_template("index1.html")  
 
-  
 if __name__ =="__main__":  
-    app.run(debug = True)  
+    app.run(debug = True)
