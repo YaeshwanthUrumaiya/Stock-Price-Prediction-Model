@@ -20,9 +20,20 @@ import plotly.offline as pyo
 def model_prediction(df):
     Y=df.filter(["Close"])
     X=df.drop(['Close'],axis=1)
+
+    Y['Date']=Y.index
+
     X=X.values
     Y=Y.values
     X_train, X_val, Y_train, Y_val = train_test_split(X,Y,test_size=0.05, random_state=10)
+
+    Y_train_data=pd.DataFrame(Y_train[:,1])
+    Y_val_data=pd.DataFrame(Y_val[:,1])
+
+    Y_train=np.delete(Y_train,1,axis=1)
+    Y_val=np.delete(Y_val,1,axis=1)
+
+
     scaler = MinMaxScaler(feature_range=(0,1))
     Y_train=scaler.fit_transform(Y_train)
     y_val=scaler.fit(Y_val)
@@ -46,23 +57,43 @@ def model_prediction(df):
 
 #the prediction for the model rn is now in scaled model. so you are rescaling it backwards
     predictions = scaler.inverse_transform(predictions)
+
+    r2s=r2_score(Y_val, predictions)
+#that is the r2 score. mulitplication of that value with 100 will give you the percentage value of accuracy. the closer this is to 1 is better. 
+    rsme=np.sqrt(np.mean(((predictions - Y_val) ** 2)))
+    todays_data=df.iloc[-1]
+    todays_data.drop(['Close'],inplace=True)
+    todays_data=np.array([todays_data])
+    data_rn=model.predict(todays_data)
+    todays_value=scaler.inverse_transform(data_rn)
     #plt.plot(Y_val)
     #plt.plot(predictions)
 
     # Save the chart to a temporary file
     #chart_file = "Stock-Price-Prediction-Model\Test_Flask\static\Image\output-1.jpg"
     #plt.savefig(chart_file)
-    trace1 = go.Scatter(x=df.index, y=Y_val.reshape(-1), name='Actual')
-    trace2 = go.Scatter(x=df.index, y=predictions.reshape(-1), name='Predicted')
+    #train_dates = df.index[:-len(X_val)]
+    val_dates = df.index[-len(X_val):]
 
-    # Combine traces into data and create layout
-    data = [trace1, trace2]
-    layout = go.Layout(title='Actual vs Predicted', xaxis_title='Date', yaxis_title='Price')
+    # plot the time series graph of the close price of the training data
+    #trace1 = go.Scatter(x=train_dates, y=scaler.inverse_transform(Y_train)[:,0], mode="lines", name="Close Price of Training Data")
 
-    # Create figure and plot
-    fig = go.Figure(data=data, layout=layout)
+    # plot the actual close price of the testing data
+    trace2 = go.Scatter(x=val_dates, y=Y_val[:,0], stackgroup='one', name="Actual Close Price of Testing Data")
+
+    # plot the predicted price of the testing data
+    trace3 = go.Scatter(x=val_dates, y=predictions[:,0], stackgroup='one', name="Predicted Close Price of Testing Data")
+
+    #data = [trace1, trace2, trace3]
+    data = [trace2, trace3]
+    layout = dict(title='Stock Price Prediction', xaxis_title='Date', yaxis_title='Price',margin=dict(l=80, r=80, t=80, b=80)) 
+    fig = dict(data=data, layout=layout)
+
     graph_html = pyo.plot(fig, output_type="div")
-    return str(predictions[-1][0]),graph_html
+    
+    strout= "The predicted value is:"+str(todays_value[0][0])+" with accurary of:"+str((r2s*100))+" and RSME of:"+str(rsme)
+
+    return strout,graph_html
 
 
 
@@ -71,10 +102,6 @@ app = Flask(__name__)
 @app.route('/', methods =["GET", "POST"])  
 def gfg():  
     if request.method == "POST":
-       # getting input with name = fname in HTML form
-       first_name = request.form.get("fname")
-       # getting input with name = lname in HTML form
-       last_name = request.form.get("lname")
        stockname=request.form.get('sname')
 
        df=yk.download(tickers=stockname,period='60d',interval='30m')
