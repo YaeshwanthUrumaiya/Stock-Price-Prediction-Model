@@ -91,7 +91,7 @@ def model_prediction(df):
 
     graph_html = pyo.plot(fig, output_type="div")
     
-    strout= "The predicted value is:"+str(todays_value[0][0])+"\n"+" with accurary of:"+str((r2s*100))+"\n"+" and RSME of:"+str(rsme)
+    strout= "The predicted value is:"+str(todays_value[0][0])+"/n RSME of:"+str(rsme)
 
     return strout,graph_html
 
@@ -103,7 +103,7 @@ app = Flask(__name__)
 def gfg():  
     if request.method == "POST":
        stockname=request.form.get('sname')
-
+       
        df=yk.download(tickers=stockname,period='60d',interval='30m')
        va,graph_html=model_prediction(df)
        return render_template('index1.html', my_string=va,graph_html=graph_html)
