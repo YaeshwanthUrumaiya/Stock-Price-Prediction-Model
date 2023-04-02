@@ -87,12 +87,12 @@ def model_prediction(df):
 
     #data = [trace1, trace2, trace3]
     data = [trace2, trace3]
-    layout = dict(title='Stock Price Prediction', xaxis_title='Date', yaxis_title='Price',margin=dict(l=80, r=80, t=80, b=80)) 
+    layout = dict(title='Stock Price Prediction', xaxis_title='Date', yaxis_title='Price',margin=dict(l=80, r=80, t=80, b=80),plot_bgcolor="rgba(0,0,0,0)",paper_bgcolor="rgba(0,0,0,0)") 
     fig = dict(data=data, layout=layout)
 
     graph_html = pyo.plot(fig, output_type="div")
     
-    strout= "The predicted value is:"+str(todays_value[0][0])+" with accurary of:"+str((r2s*100))+" and RSME of:"+str(rsme)
+    strout= "The predicted value is:"+str(todays_value[0][0])+"\n"+" with accurary of:"+str((r2s*100))+"\n"+" and RSME of:"+str(rsme)
 
     return strout,graph_html
 
@@ -112,6 +112,5 @@ def gfg():
         return render_template('index1.html', my_string=va,graph_html=graph_html)
     return render_template("index1.html")  
 
-  
 if __name__ =="__main__":  
-    app.run(debug = True)  
+    app.run(debug = True)
