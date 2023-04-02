@@ -105,10 +105,10 @@ a:hover {
   <img src="{{ url_for('static', filename='Image/monitor.png') }}" style="position: absolute;left:870px;top:650px;opacity:50%;width:42px;height:42px;">
 
   <div class='graph' height="400">{{ graph_html|safe }}</div>
-  <div class="card"><center><h6>Predicted<br><p>{{ my_string1 }}</p></h6></center></div>
+  <div class="card"><center><h6>Predicted closing price<br><p>{{ my_string1 }}</p></h6></center></div>
   <div class="card" style="position: absolute;left:850px;"><center><h6 style="position: absolute;left:80px;">R.S.M.E<br><p>{{ my_string2 }}</p></h6></center></div>
 </div>
-<h6 style="position:fixed;height:100px;width:600px;top:400px;left:400px;text-align: center;">The model isn't prefect for all possible Company, it is not built not on the traditional stock price prediction model/systems. Since we wanted to upscale our model to work with a wide range of companies, we had to give up a bit on accuracy
+<h6 style="position:fixed;height:100px;width:600px;top:400px;left:400px;text-align: center;">The model isn't prefect for all possible Companies, it is not built on the traditional stock price prediction model/systems. Since we wanted to upscale our model to work with a wide range of companies, we had to give up a tiny bit on accuracy
     take it with a grain of salt
     if you are not satisfied with your output, try a different period-interval option.
     <br>
