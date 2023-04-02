@@ -17,8 +17,11 @@
     </div>
     <div class="ui">
         <center>
-        <label>Company Name:</label>
-        <input type="text" id="Company Name" placeholder="GOOG">
+        
+        <form action="{{ url_for("gfg")}}" method="post">
+            <label>Company Name:</label>
+            <input type="text" id="stockname" name="sname"  placeholder="GOOG">
+        
         <br><br>
         <label style="position: absolute;left:95px;">Period:</label>
         <select class="dropdown1">
@@ -30,7 +33,7 @@
         </select>
         <br><br>
         <br><br>
-        <button class="btn" href="" style="position: absolute;left:200px;top:150px;">Predict</button>
+        <button type="submit" href="" style="position: absolute;left:200px;top:150px;">Predict</button>
         </center>
     </div>
     <center>
