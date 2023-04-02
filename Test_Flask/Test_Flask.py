@@ -41,9 +41,10 @@ def model_prediction(df):
 #that is the bottom layer and it goes further and further. 
 #return sequences being true means all of the hidden weights and baises will move to the next layer. 
 #if it is set to false, then it won't and only the true output from that layer will move to the next layer. 
-    model.add(LSTM(128, return_sequences=True, input_shape= (X_train.shape[1], 1)))
+    model.add(LSTM(169, return_sequences=True, input_shape= (X_train.shape[1], 1)))
+    model.add(LSTM(84, return_sequences=True))
     model.add(LSTM(64, return_sequences=False))
-    model.add(Dense(25))
+    model.add(Dense(40))
     model.add(Dense(1)) 
     model.compile(optimizer='adam', loss='mean_squared_error')
 #optimizer is how you train the data. usually you would use gradient descent to update the parameters. 
@@ -51,7 +52,7 @@ def model_prediction(df):
 #and the loss is the function. 
 
 # Train the model
-    model.fit(X_train, Y_train, batch_size=1, epochs=1)
+    model.fit(X_train, Y_train, batch_size=5, epochs=5,shuffle=True)
     #so you have a trained model now. so you are now testing. 
     predictions = model.predict(X_val)
 
@@ -79,10 +80,10 @@ def model_prediction(df):
     #trace1 = go.Scatter(x=train_dates, y=scaler.inverse_transform(Y_train)[:,0], mode="lines", name="Close Price of Training Data")
 
     # plot the actual close price of the testing data
-    trace2 = go.Scatter(x=val_dates, y=Y_val[:,0], stackgroup='one', name="Actual Close Price of Testing Data")
+    trace2 = go.Scatter(x = list(range(len(Y_val[:,0]))), y=Y_val[:,0], name="Actual Close Price of Testing Data")
 
     # plot the predicted price of the testing data
-    trace3 = go.Scatter(x=val_dates, y=predictions[:,0], stackgroup='one', name="Predicted Close Price of Testing Data")
+    trace3 = go.Scatter(x = list(range(len(Y_val[:,0]))), y=predictions[:,0], name="Predicted Close Price of Testing Data")
 
     #data = [trace1, trace2, trace3]
     data = [trace2, trace3]
@@ -102,11 +103,13 @@ app = Flask(__name__)
 @app.route('/', methods =["GET", "POST"])  
 def gfg():  
     if request.method == "POST":
-       stockname=request.form.get('sname')
-
-       df=yk.download(tickers=stockname,period='60d',interval='30m')
-       va,graph_html=model_prediction(df)
-       return render_template('index1.html', my_string=va,graph_html=graph_html)
+        stockname=request.form.get('sname')
+        df=yk.download(tickers=stockname,period='90d',interval='60m')
+        #go with wither 60d and 30m or 3y and 1d or 60d and 60m or 90d and 60m
+        if (((np.array(df.sum()))!=0).sum()==0):
+            return render_template('index1.html', error="We are unable to fetch the data")
+        va,graph_html=model_prediction(df)
+        return render_template('index1.html', my_string=va,graph_html=graph_html)
     return render_template("index1.html")  
 
   
