@@ -33,7 +33,7 @@
 
 .graph{
     position: absolute;
-    height:500px;
+    height:550px;
     width:900px;
     top:55px; 
     left:270px;
@@ -81,6 +81,20 @@ img{
 body{
   overflow: hidden;
 }
+/* unvisited link */
+a:link {
+  color: #008000;
+}
+
+/* visited link */
+a:visited {
+  color: rgb(3, 58, 3);
+}
+
+/* mouse over link */
+a:hover {
+  color: rgb(220, 155, 24);
+}
     </style>
 </head>
 <body>
@@ -94,8 +108,11 @@ body{
   <div class="card"><center><h6>Predicted<br><p>{{ my_string1 }}</p></h6></center></div>
   <div class="card" style="position: absolute;left:850px;"><center><h6 style="position: absolute;left:80px;">R.S.M.E<br><p>{{ my_string2 }}</p></h6></center></div>
 </div>
-<p style="position:fixed;height:100px;width:400px;top:400px;left:400px;text-align: center;">the model isn't prefect, it is not built not the traditional stock price prediction model. Since we wanted to upscale our model to work with a wide range of companies, we had to give up a bit on accuracy
+<h6 style="position:fixed;height:100px;width:600px;top:400px;left:400px;text-align: center;">The model isn't prefect for all possible Company, it is not built not on the traditional stock price prediction model/systems. Since we wanted to upscale our model to work with a wide range of companies, we had to give up a bit on accuracy
     take it with a grain of salt
-    if you are not satisfied with your output, try a diff period.</p>
+    if you are not satisfied with your output, try a different period-interval option.
+    <br>
+    <br><a href="https://groww.in">Invest Now</a>
+</h6>
 </body>
 </html>
