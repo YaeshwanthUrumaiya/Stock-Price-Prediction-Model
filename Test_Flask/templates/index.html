@@ -111,7 +111,7 @@ body {
 .box1 {
     position: absolute;
     height: 300px;
-    width:500px;
+    width:700px;
     top:190px;
     left:500px;
     background: whitesmoke;
@@ -147,6 +147,15 @@ h1{
         <img src="{{ url_for('static', filename='Image/bg.gif') }}">
     </div>
     <div class="ui">
+        <p style="position:fixed;right:420;top:230px;font-size:large;text-align: center;">
+            <b>period to interval chart.</b>
+            <br>
+            <br>60d - 30m 
+            <br>3y - 1d
+            <br>90d - 60m
+            <br>7d- 1m
+            <br>30d - 5m
+        </p>
         <center>
         
         <form action="{{ url_for("gfg")}}" method="post">
@@ -163,7 +172,7 @@ h1{
         </select>
         <br><br>
         <br><br>
-        <button type="submit" style="position: absolute;left:200px;top:150px;">Predict</button>
+        <button type="submit" class="btn">Predict</button>
         <label style="position: absolute;left:100px;top:120px; white-space: nowrap;">{{ error }}</p>
         </center>
     </div>
