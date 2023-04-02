@@ -1,9 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="style2.css" rel="stylesheet" type="text/css"/>
     <meta charset="UTF-8">
     <title>Prediction Graph</title>
+    <style>
+      .video-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index:-1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-size: cover;
+}
+.video-container video {
+    /* Make video to at least 100% wide and tall */
+    min-width: 100%;
+    min-height: 100%;
+
+    /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+    width: auto;
+    height: auto;
+
+    /* Center the video */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+canvas{
+    position: absolute;
+    height:500px;
+    width:900px;
+    top:100px;
+    left:270px;
+    z-index:1;
+    background-color: whitesmoke;
+    opacity: 50%;
+    border-radius: 30px;
+}
+
+.card{
+    position: absolute;
+    height:100px;
+    width:200px;
+    top:670px;
+    left:400px;
+    z-index:1;
+    background-color: whitesmoke;
+    opacity: 80%;
+    border-radius: 20px;
+}
+
+h6 {
+    position: absolute;
+    left:70px;
+    top:20px;
+    font-family: "Hiragino Sans GB";
+    font-size: 20px;
+    color: black;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+    opacity:50%;
+    z-index: 1;
+}
+
+img{
+    position: absolute;
+    left:415px;
+    top:700px;
+    width:40px;
+    height:40px;
+    opacity: 50%;
+    z-index:2;
+}
+    </style>
 </head>
 <body>
 <div class="video-container">
@@ -14,7 +88,7 @@
   <img src="dollar.png">
   <img src="monitor.png" style="position: absolute;left:870px;top:695px;opacity:50%;width:42px;height:42px;">
 
-  <canvas id="myCanvas" width="200" height="100"></canvas>
+  <div id="myCanvas" width="200" height="100">{{ graph_html|safe }}</div>
   <div class="card"><center><h6>Predicted<br>$40</h6></center></div>
   <div class="card" style="position: absolute;left:850px;"><center><h6 style="position: absolute;left:80px;">R.S.M.E<br>0.4</h6></center></div>
 </div>

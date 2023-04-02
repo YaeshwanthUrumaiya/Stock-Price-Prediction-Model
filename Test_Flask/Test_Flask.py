@@ -115,7 +115,7 @@ def gfg():
         if (((np.array(df.sum()))!=0).sum()==0):
             return render_template('index1.html', error="We are unable to fetch the data")
         va,graph_html=model_prediction(df)
-        return render_template('index1.html', my_string=va,graph_html=graph_html)
+        return render_template('graph.html',graph_html=graph_html)
     return render_template("index.html")  
 
   
