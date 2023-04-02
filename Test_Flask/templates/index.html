@@ -3,147 +3,140 @@
     
     <title>Stock Price Prediction</title>
     <style>
-.h1{
-    font-family: "Gurmukhi MN";
-    letter-spacing: 5px;
-    word-spacing: 40px;
-    font-size: 90px;
-}
-.video-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left:0;
-    z-index:-1;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-size: cover;
-}
-.video-container img {
-    /* Make video to at least 100% wide and tall */
-    min-width: 100%;
-    min-height: 100%;
+    .h1{
+       font-family: "Gurmukhi MN";
+       letter-spacing: 5px;
+      word-spacing: 40px;
+      font-size: 90px;
+    }
+    .vc {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left:0;
+        z-index:-1;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-size: cover;
+    }   
+    .vc img {
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
 
-    /* Setting width & height to auto prevents the browser from stretching or squishing the video */
-    width: auto;
-    height: auto;
+    select{
+        border: none;
+        padding: 8px 10px;
+        border-radius: 8px;
+        opacity: 70%;
+    }
 
-    /* Center the video */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-}
+    label{
+        font-family: "Hiragino Sans GB";
+        font-size: 20px;
+        opacity: 60%;
+        color:black;
 
-select{
-    border: none;
-    padding: 8px 10px;
-    border-radius: 8px;
-    opacity: 70%;
-}
+    }
 
-label{
-    font-family: "Hiragino Sans GB";
-    font-size: 20px;
-    opacity: 60%;
-    color:black;
+    input{
+        border: none;
+        padding: 8px 10px;
+        border-radius: 8px;
+        opacity: 70%
+    }
 
-}
+    .navg{
+        position: absolute;
+        height: 70px;
+        width:2000px;
+        top:0px;
+        left:0px;
+        background: #ffffff;
+        opacity:80%;
+    }
 
-input{
-    border: none;
-    padding: 8px 10px;
-    border-radius: 8px;
-    opacity: 70%
-}
+    .btn {
+        position: relative;
+        top: 50px;
+        left: 125px;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        background-color: #FFFFFF;
+        opacity: 70%;
+        color: black;
+        font-size: 16px;
+        padding: 16px 30px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+    }
 
-.navigation {
-    position: absolute;
-    height: 70px;
-    width:2000px;
-    top:0px;
-    left:0px;
-    background: #ffffff;
-    opacity:80%;
-}
+    .btn:hover {
+        background-color: black;
+        color: white;
+    }
+    body {
+        background-color: #63D6E0;
+        overflow: hidden;
+    }
 
-.btn {
-    position: relative;
-    top: 50px;
-    left: 125px;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    background-color: #FFFFFF;
-    opacity: 70%;
-    color: black;
-    font-size: 16px;
-    padding: 16px 30px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    text-align: center;
-}
+    .ui{
+        position: absolute;
+        left:500px;
+        top:250px;
+    }
 
-.btn:hover {
-    background-color: black;
-    color: white;
-}
-body {
-    background-color: #63D6E0;
-    overflow: hidden;
-}
-
-.ui{
-    position: absolute;
-    left:500px;
-    top:250px;
-}
-
-.dropdown1{
-    position: absolute;
-    top:48px;
-    left:163px;
-    width:159px;
-}
+    .dropdown1{
+        position: absolute;
+        top:48px;
+        left:163px;
+        width:159px;
+    }
 
 
-.box1 {
-    position: absolute;
-    height: 300px;
-    width:700px;
-    top:190px;
-    left:450px;
-    background: whitesmoke;
-    opacity:30%;
-    z-index:-1;
-    border-radius: 30px;
-}
-img{
-    position: absolute;
-    left:20px;
-    top:15px;
-    width:40px;
-    height:40px;
-    opacity: 80%;
-}
+    .box1 {
+        position: absolute;
+        height: 300px;
+        width:700px;
+        top:190px;
+        left:450px;
+        background: whitesmoke;
+        opacity:30%;
+        z-index:-1;
+        border-radius: 30px;
+    }
+    img{
+        position: absolute;
+        left:20px;
+        top:15px;
+        width:40px;
+        height:40px;
+        opacity: 80%;
+    }
 
-h1{
-    position: absolute;
-    top:0px;
-    left:85px;
-    opacity:80%;
-}
-
+    h1{
+        position: absolute;
+        top:0px;
+        left:85px;
+        opacity:80%;
+    }
     </style>
 </head>
 <body>
-    <div class="navigation">
-
+    <div class="navg">
     </div>
     <img src="{{ url_for('static', filename='Image/money-graph-with-up-arrow.png') }}">
     <h1>Stock Market Prediction</h1>
-    <div class="video-container">
+    <div class="vc">
         <img src="{{ url_for('static', filename='Image/bg.gif') }}">
     </div>
     <div class="ui">
@@ -151,13 +144,13 @@ h1{
             <b>period to interval chart.</b>
             <br>
             <br>30d - 5m
-            <br>60d - 30m (recommended)
+            <br>60d - 30m
             <br>90d - 60m
             <br>3y - 1d
         </p>
         <center>
         
-        <form action="{{ url_for("gfg")}}" method="post">
+        <form action="{{ url_for("test")}}" method="post">
             <label>Company Name:</label>
             <input type="text" id="stockname" name="sname"  placeholder="GOOG">
         
@@ -177,11 +170,7 @@ h1{
     </div>
     <center>
     <div class="box1">
-
     </div>
     </center><br><br><br><br><br>
-
-
-
 </body>
 </html>

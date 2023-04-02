@@ -4,113 +4,101 @@
     <meta charset="UTF-8">
     <title>Prediction Graph</title>
     <style>
-.video-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left:0;
-    z-index:-1;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-size: cover;
-}
-.video-container img {
-    /* Make video to at least 100% wide and tall */
-    min-width: 100%;
-    min-height: 100%;
+    .vc {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left:0;
+        z-index:-1;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-size: cover;
+    }
+    .vc img {
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
 
-    /* Setting width & height to auto prevents the browser from stretching or squishing the video */
-    width: auto;
-    height: auto;
+    .graph{
+        position: absolute;
+        height:550px;
+        width:900px;
+        top:55px; 
+        left:270px;
+        z-index:1;
+        background-color: whitesmoke;
+        opacity: 50%;
+        border-radius: 30px;
+    }
 
-    /* Center the video */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-}
+    .card{
+        position: absolute;
+        height:110px;
+        width:200px;
+        top:625px;
+        left:400px;
+        z-index:1;
+        background-color: whitesmoke;
+        opacity: 80%;
+        border-radius: 20px;
+    }
 
-.graph{
-    position: absolute;
-    height:550px;
-    width:900px;
-    top:55px; 
-    left:270px;
-    z-index:1;
-    background-color: whitesmoke;
-    opacity: 50%;
-    border-radius: 30px;
-}
+    h6 {
+        position: absolute;
+        left:70px;
+        top:20px;
+        font-family: "Hiragino Sans GB";
+        font-size: 20px;
+        color: black;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+        opacity:50%;
+        z-index: 1;
+    }
 
-.card{
-    position: absolute;
-    height:100px;
-    width:200px;
-    top:625px;
-    left:400px;
-    z-index:1;
-    background-color: whitesmoke;
-    opacity: 80%;
-    border-radius: 20px;
-}
-
-h6 {
-    position: absolute;
-    left:70px;
-    top:20px;
-    font-family: "Hiragino Sans GB";
-    font-size: 20px;
-    color: black;
-    font-weight: 700;
-    margin: 0;
-    padding: 0;
-    opacity:50%;
-    z-index: 1;
-}
-
-img{
-    position: absolute;
-    left:415px;
-    top:655px;
-    width:40px;
-    height:40px;
-    opacity: 50%;
-    z-index:2;
-}
-body{
-  overflow: hidden;
-}
-/* unvisited link */
-a:link {
-  color: #008000;
-}
-
-/* visited link */
-a:visited {
-  color: rgb(3, 58, 3);
-}
-
-/* mouse over link */
-a:hover {
-  color: rgb(220, 155, 24);
-}
+    img{
+        position: absolute;
+        left:415px;
+        top:655px;
+        width:40px;
+        height:40px;
+        opacity: 50%;
+        z-index:2;
+    }
+    body{
+        overflow: hidden;
+    }
+    a:link {
+        color: #008000;
+    }
+    a:hover {
+        color: rgb(220, 155, 24);
+    }
     </style>
 </head>
 <body>
-  <div class="video-container">
+  <div class="vc">
     <img src="{{ url_for('static', filename='Image/bg.gif') }}">
   </div>
   <img src="{{ url_for('static', filename='Image/dollar.png') }}">
   <img src="{{ url_for('static', filename='Image/monitor.png') }}" style="position: absolute;left:870px;top:650px;opacity:50%;width:42px;height:42px;">
 
-  <div class='graph' height="400">{{ graph_html|safe }}</div>
-  <div class="card"><center><h6>Predicted closing price<br><p>{{ my_string1 }}</p></h6></center></div>
-  <div class="card" style="position: absolute;left:850px;"><center><h6 style="position: absolute;left:80px;">R.S.M.E<br><p>{{ my_string2 }}</p></h6></center></div>
+  <div class='graph' height="400">{{ graph1|safe }}</div>
+  <div class="card"><center><h6>Predicted closing price<br><p>{{ string1 }}</p></h6></center></div>
+  <div class="card" style="position: absolute;left:850px;"><center><h6 style="position: absolute;left:80px;">R.S.M.E<br><p>{{ string2 }}</p></h6></center></div>
 </div>
 <h6 style="position:fixed;height:100px;width:600px;top:400px;left:400px;text-align: center;">The model isn't prefect for all possible Companies, it is not built on the traditional stock price prediction model/systems. Since we wanted to upscale our model to work with a wide range of companies, we had to give up a tiny bit on accuracy
     take it with a grain of salt
     if you are not satisfied with your output, try a different period-interval option.
+    The graph shows how closely the predicted model follows the actual price.
     <br>
     <br><a href="https://groww.in">Invest Now</a>
 </h6>
