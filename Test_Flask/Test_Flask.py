@@ -50,7 +50,7 @@ def model_prediction(df):
     model.add(Dropout(0.2))
     model.add(LSTM(64, return_sequences=False))
     model.add(Dropout(0.2))
-    model.add(Dense(60))
+    model.add(Dense(40))
     model.add(Dense(1)) 
     model.compile(optimizer='adam', loss='mean_squared_error')
 #optimizer is how you train the data. usually you would use gradient descent to update the parameters. 
@@ -116,7 +116,7 @@ def gfg():
             return render_template('index1.html', error="We are unable to fetch the data")
         va,graph_html=model_prediction(df)
         return render_template('index1.html', my_string=va,graph_html=graph_html)
-    return render_template("index1.html")  
+    return render_template("index.html")  
 
   
 if __name__ =="__main__":  
