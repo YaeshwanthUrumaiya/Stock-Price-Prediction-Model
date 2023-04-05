@@ -27,8 +27,6 @@ def model_prediction(df):
 
     Y_train=np.delete(Y_train,1,axis=1)
     Y_val=np.delete(Y_val,1,axis=1)
-
-
     scaler = MinMaxScaler(feature_range=(0,1))
     Y_train=scaler.fit_transform(Y_train)
 
@@ -45,7 +43,7 @@ def model_prediction(df):
 
     model1.compile(optimizer='adam', loss='mean_absolute_error')
 
-    model1.fit(X_train, Y_train, batch_size=5, epochs=5,shuffle=True)
+    model1.fit(X_train, Y_train, batch_size=5, epochs=5)
 
     predictions = model1.predict(X_val)
 
